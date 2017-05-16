@@ -82,6 +82,15 @@
                     Laravel
                 </div>
 
+                {{-- このコメントはHTML中には存在しない --}}
+
+
+                {{ $name or 'Default' }}
+
+                @for($i=0; $i<10; $i++)
+                  現在の値：{{$i}}
+                @endfor
+
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>

@@ -73,4 +73,18 @@ class ItemTest extends TestCase
         $response->assertStatus(200);
         $this->assertNull(Item::query()->find(1));
     }
+
+    public function testIndexReturnsOnlyUncheckedItems()
+    {
+        $item = Item::query()->find(1);
+        $item->checked = 1;
+        $item->save();
+
+        $response = $this->get('/api/items');
+
+        $response->assertStatus(200);
+        $this->assertCount(0, $response->json());
+    }
+
+
 }
