@@ -34,14 +34,10 @@ class User extends Authenticatable
     // }
 
 
-    public function create(Array $params)
+
+    public function create()
     {
-        $this->name           = $params['name'];
-        $this->email          = $params['email'];
-        $this->barthday       = $params['barthday'];
-        $this->age            = $params['age'];
-        $this->sex            = $params['sex'];
-        $this->password       = bcrypt(40);
+        $this->password       = bcrypt(bcrypt($this->password));
         $this->remember_token = str_random(10);
         $this->save();
     }

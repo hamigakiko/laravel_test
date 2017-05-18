@@ -23,11 +23,9 @@ Route::get('greeting', function () {
     return view('welcome', ['name' => 'Samantha']);
 });
 
-
 Route::post('user/create',   'User\UserController@create');
-Route::get('user/list',   'User\UserController@list');
 
-Route::get('user/test', 'User\UserController@test');
+Route::get('user/list',   'User\UserController@list');
 
 Route::get('user/{id}', 'User\UserController@show');
 

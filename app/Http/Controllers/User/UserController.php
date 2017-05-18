@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateUserRequest;
 
 use App\User;
 use App\Http\Controllers\Controller;
@@ -21,16 +22,18 @@ class UserController extends Controller
     }
 
 
-    public function create()
+
+
+    public function create(CreateUserRequest $request)
     {
-        \DB::transaction(function(){
-            $inputs = \Request::all();
-            $user = new User();
-            $user->create($inputs);
+        $user = new User($request->all());
+        \DB::transaction(function() use($user) {
+            $user->create();
         });
 
         return redirect('user/list');
     }
+
 
 
     public function list()
@@ -41,10 +44,5 @@ class UserController extends Controller
         ]);
     }
 
-
-    public function test()
-    {
-        return view('user.test');
-    }
 
 }
