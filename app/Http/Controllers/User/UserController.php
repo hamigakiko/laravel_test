@@ -22,8 +22,6 @@ class UserController extends Controller
     }
 
 
-
-
     public function create(CreateUserRequest $request)
     {
         $user = new User($request->all());
@@ -33,7 +31,6 @@ class UserController extends Controller
 
         return redirect('user/list');
     }
-
 
 
     public function list()

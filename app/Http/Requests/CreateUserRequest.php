@@ -23,21 +23,13 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => 'required',
-            'email'    => 'required',
-            'password' => 'required',
-            'barthday' => 'numeric',
-            'age'      => 'numeric',
-            'sex'      => 'required',
+            'name'     => 'required|max:20',
+            'email'    => 'required|email',
+            'password' => 'required|between,8,40',
+            'barthday' => 'nullable|numeric|size:8',
+            'age'      => 'nullable|numeric|between:1,2',
+            'sex'      => 'required|numeric',
         ];
-        // return [
-        //     'name'     => 'required|max:20',
-        //     'email'    => 'required|email|unique|max:100',
-        //     'password' => 'required|alpha_num|min:6|max:100',
-        //     // 'barthday' => 'numeric',
-        //     // 'age'      => 'numeric',
-        //     'sex'      => 'required',
-        // ];
     }
 
 
@@ -45,11 +37,16 @@ class CreateUserRequest extends FormRequest
     {
         return [
         'name.required'     => ':attributeを入力してください。',
+        'name.max'          => ':attributeは:max文字以下で入力してください。',
         'email.required'    => ':attributeを入力してください。',
+        'email.email'       => '正しく:attributeを入力してください。',
         'password.required' => ':attributeを入力してください。',
-        'sex.required'      => ':attributeを入力してください。',
+        'password.between'  => ':attributeは:minから:maxの間である必要があります。',
         'barthday.numeric'  => ':attributeは数値で入力してください。',
+        'barthday.size'     => ':attributeは:size桁で入力してください。',
         'age.numeric'       => ':attributeは数値で入力してください。',
+        'age.between'       => ':attributeは:minから:maxの間である必要があります。',
+        'sex.required'      => ':attributeを入力してください。',
         ];
     }
 
