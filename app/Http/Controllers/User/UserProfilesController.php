@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Http\Request;
+use App\Http\Requests\UserProfilesStoreFormRequest;
+use App\Http\Requests\UserProfilesUpdateFormRequest;
+
+
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\CreateUserRequest;
-
-use App\User;
+use App\UserProfile;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+
+
+
+class UserProfilesController extends Controller
 {
+
 
     public function __construct()
     {
         $this->middleware('auth');
     }
-
 
 
     /**
@@ -27,12 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-
-        $template_params = [
-            "user" => $user,
-        ];
-        return view('user.index', $template_params);
+        //
     }
 
     /**
@@ -42,6 +42,8 @@ class UserController extends Controller
      */
     public function create()
     {
+
+        return view('user.profile_form');
     }
 
     /**
@@ -52,6 +54,14 @@ class UserController extends Controller
      */
     public function store(UserProfilesStoreFormRequest $request)
     {
+        $user = Auth::user();
+
+        $userProfile = new UserProfile();
+        $userProfile->fill($request->all());
+        $userProfile->user_id = $user->id;
+        $userProfile->save();
+
+        return redirect('user');
     }
 
     /**
@@ -62,6 +72,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $template_params = [
+            "user" => $user,
+        ];
+        return view('user.profile', $template_params);
     }
 
     /**
@@ -72,7 +86,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Auth::user();
+
+        $template_params = [
+            "user" => $user,
+        ];
+        return view('user.profile_form', $template_params);
     }
 
     /**
@@ -82,9 +101,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserProfilesUpdateFormRequest $request, $id)
     {
-        //
+        $userProfile = UserProfile::find($id);
+        $userProfile->fill($request->all());
+        $userProfile->save();
+
+        return redirect('user');
     }
 
     /**
@@ -97,89 +120,4 @@ class UserController extends Controller
     {
         //
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     public function show(int $id)
-//     {
-//         $user = Auth::user();
-
-
-
-//         // $user_profile = $user->userProfile();
-
-
-// // logger($user->userProfile->age);
-
-//         $template_params = [
-//             "user" => $user,
-//         ];
-//         return view('user.profile', $template_params);
-//     }
-
-
-//     public function create(CreateUserRequest $request)
-//     {
-//         $user = new User($request->all());
-//         \DB::transaction(function() use($user) {
-//             $user->create();
-//         });
-
-//         return redirect('user/list');
-//     }
-
-
-//     public function list()
-//     {
-//         $records = User::all();
-//         return view('user.list')->with([
-//             "records" => $records
-//         ]);
-//     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

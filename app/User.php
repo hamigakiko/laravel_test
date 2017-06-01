@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'barthday', 'age', 'sex'
+        'name', 'email', 'password'
     ];
 
     /**
@@ -28,19 +28,9 @@ class User extends Authenticatable
     ];
 
 
-    // public function items()
-    // {
-    //     return $this->hasMany(Item::class);
-    // }
 
-
-
-    public function create()
+    public function userProfile()
     {
-        $this->password       = bcrypt(bcrypt($this->password));
-        $this->remember_token = str_random(10);
-        $this->save();
+        return $this->hasOne('App\UserProfile', 'user_id', 'id');
     }
-
-
 }

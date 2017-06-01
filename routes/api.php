@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // 認証は面倒なので一旦省略
-Route::resource('/items', 'ItemController', ['except' => ['create', 'edit']]);
+// Route::resource('/items', 'ItemController', ['except' => ['create', 'edit']]);

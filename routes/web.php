@@ -15,18 +15,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('blade', function(){
-    return view('child');
-});
 
-Route::get('greeting', function () {
-    return view('welcome', ['name' => 'Samantha']);
-});
 
-Route::post('user/create',   'User\UserController@create');
 
-Route::get('user/list',   'User\UserController@list');
+// Route::post('user/create',   'User\UserController@create');
 
-Route::get('user/{id}', 'User\UserController@show');
+// Route::get('user/list',   'User\UserController@list');
 
-Route::get('user/', 'User\UserController@list');
+// Route::get('user/{id}', 'User\UserController@show');
+
+// Route::get('user/', 'User\UserController@list');
+
+// 認証
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+// ユーザーコントローラー
+Route::resource('user', 'User\UserController', [
+    'except' => 'create', 'store', 'update', 'destroy'
+]);
+
+
+// ユーザープロファイルコントローラー
+Route::resource('userProfile', 'User\UserProfilesController', [
+    'except' => 'destroy'
+]);
