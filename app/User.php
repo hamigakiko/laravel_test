@@ -33,4 +33,11 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\UserProfile', 'user_id', 'id');
     }
+
+
+    public function userAvater()
+    {
+        return $this->hasOne('App\UserAvater', 'user_id', 'id');
+    }
+
 }

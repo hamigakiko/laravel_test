@@ -40,3 +40,13 @@ Route::resource('user', 'User\UserController', [
 Route::resource('userProfile', 'User\UserProfilesController', [
     'except' => 'destroy'
 ]);
+
+// ユーザープロファイルコントローラー
+Route::resource('userAvater', 'User\UserAvatersController', [
+    'except' => 'destroy'
+]);
+
+// チャットルームコントローラー
+Route::resource('chatRooms', 'Chat\ChatRoomsController', [
+    'except' => 'destroy'
+]);

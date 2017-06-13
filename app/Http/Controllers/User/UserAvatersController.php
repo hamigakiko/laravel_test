@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\UserProfilesStoreFormRequest;
-use App\Http\Requests\UserProfilesUpdateFormRequest;
+use App\Http\Requests\UserAvatersStoreFormRequest;
+use App\Http\Requests\UserAvatersUpdateFormRequest;
 
 
 use Illuminate\Support\Facades\Auth;
 
-use App\UserProfile;
+use App\UserAvater;
 use App\Http\Controllers\Controller;
 
+// use Input;
+use Image;
 
+use DB;
 
+use Illuminate\Http\UploadedFile;
 
-class UserProfilesController extends Controller
+class UserAvatersController extends Controller
 {
-
 
     public function __construct()
     {
@@ -42,8 +45,7 @@ class UserProfilesController extends Controller
      */
     public function create()
     {
-
-        return view('user.profile_form');
+        return view('user.avater_form');
     }
 
     /**
@@ -52,20 +54,29 @@ class UserProfilesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserProfilesStoreFormRequest $request)
+    public function store(UserAvatersStoreFormRequest $request)
     {
         $user = Auth::user();
+        $userAvater = new userAvater();
 
-        $userProfile = new UserProfile();
-        $userProfile->fill($request->all());
-        $userProfile->user_id = $user->id;
-        $userProfile->save();
+        $file = $request->file('avater_file');
+        $fileExtension = $file->extension();
+        $fileName = $user->id . '.' . $fileExtension;
+        $filePath = public_path()  . '/images/avaters/';
 
-        // $userAvater = new UserAvater();
-        // $userAvater->fill($request->all());
-        // $userAvater->user_id = $user->id;
-        // $userAvater->save();
+        $image = Image::make($file);
+        $image->resize(300, 300);
+        $mimeType = $image->mime();
 
+        $userAvater->user_id   = $user->id;
+        $userAvater->name      = $fileName;
+        $userAvater->mime_type = $mimeType;
+
+        DB::transaction(function () use($image, $filePath, $userAvater) {
+            $userAvater->save();
+            $image->save($filePath . $userAvater->name);
+            $image->resize(100, 100)->save($filePath . "mini/" . $userAvater->name);
+        });
 
         return redirect('user');
     }
@@ -78,10 +89,7 @@ class UserProfilesController extends Controller
      */
     public function show($id)
     {
-        $template_params = [
-            "user" => $user,
-        ];
-        return view('user.profile', $template_params);
+        //
     }
 
     /**
@@ -92,12 +100,7 @@ class UserProfilesController extends Controller
      */
     public function edit($id)
     {
-        $user = Auth::user();
-
-        $template_params = [
-            "user" => $user,
-        ];
-        return view('user.profile_form', $template_params);
+        //
     }
 
     /**
@@ -107,13 +110,9 @@ class UserProfilesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserProfilesUpdateFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $userProfile = UserProfile::find($id);
-        $userProfile->fill($request->all());
-        $userProfile->save();
-
-        return redirect('user');
+        //
     }
 
     /**

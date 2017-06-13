@@ -25,26 +25,26 @@ class UserProfilesStoreFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'birthday' => 'nullable|string|size:8',
-            'sex'      => 'numeric|between:0,3',
+            'birthday'    => 'nullable|string|size:8',
+            'sex'         => 'numeric|between:0,3',
         ];
     }
 
     public function messages()
     {
         return [
-        'birthday.string'   => ':attributeは数字で入力してください。',
-        'birthday.size'     => ':attributeは:size桁で入力してください。',
-        'sex.required'      => ':attributeを入力してください。',
-        'sex.between'       => '指定された:attributeを選択してください。',
+            'birthday.string'      => ':attributeは数字で入力してください。',
+            'birthday.size'        => ':attributeは:size桁で入力してください。',
+            'sex.numeric'          => '指定された:attributeを選択してください。',
+            'sex.between'          => '指定された:attributeを選択してください。',
         ];
     }
 
     public function attributes()
     {
         return [
-            'birthday' => '誕生日',
-            'sex'      => '性別',
+            'birthday'    => '誕生日',
+            'sex'         => '性別',
         ];
     }
 }

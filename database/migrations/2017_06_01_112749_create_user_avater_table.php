@@ -13,7 +13,15 @@ class CreateUserAvaterTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('user_avaters', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->references('id')->on('users');
+            $table->string('name')->nullable();
+            $table->string('mime_type')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+            $table->unique(['user_id', 'deleted_at']);
+        });
     }
 
     /**
@@ -23,6 +31,6 @@ class CreateUserAvaterTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('user_avaters');
     }
 }

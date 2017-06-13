@@ -159,6 +159,10 @@ ol li {
 .sub_title {
     font-size: 42px;
 }
+.subsub_title {
+    font-size: 32px;
+}
+
 
 .links > a {
     color: #636b6f;

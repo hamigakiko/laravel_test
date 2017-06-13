@@ -10,7 +10,15 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <a href="{{action('User\UserController@index')}}">プロフィールへ</a>
+
+                    <ul>
+                        <li>
+                            <a href="{{action('User\UserController@index')}}">プロフィールへ</a>
+                        </li>
+                        <li>
+                            <a href="{{action('Chat\ChatRoomsController@index')}}">ROOMへ</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
