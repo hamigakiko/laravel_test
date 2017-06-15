@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChatRoomUsers extends Model
 {
@@ -21,11 +20,32 @@ class ChatRoomUsers extends Model
      * @var array
      */
     protected $fillable = [
-        'chat_rooms_id', 'user_id'
+        'chat_rooms_id', 'user_id', 'user_name'
     ];
 
     public function chatRooms()
     {
         return $this->belongsTo('App\Models\ChatRooms');
     }
+
+
+
+
+
+//     protected static function boot()
+//     {
+//         parent::boot();
+
+//         self::saved(function($chatRoomUsers){
+//             return $chatRoomUsers->onSavedHandler();
+//         });
+//     }
+
+
+//     private function onSavedHandler()
+//     {
+// logger("hoge");
+
+//         return true;
+//     }
 }

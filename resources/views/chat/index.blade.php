@@ -4,11 +4,6 @@
 
 @section('content')
 
-@php
-DB::enableQueryLog();
-@endphp
-
-
     <div class="container">
 
         <div class="sub_title mb30">
@@ -38,10 +33,6 @@ DB::enableQueryLog();
     </div>
 </div>
 
-
-@php
-logger(DB::getQueryLog());
-@endphp
 
 @endsection
 

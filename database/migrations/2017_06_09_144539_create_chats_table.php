@@ -38,9 +38,9 @@ class CreateChatsTable extends Migration
             $table->increments('id');
             $table->integer('chat_rooms_id')->unsigned();
             $table->integer('user_id')->references('id')->on('users');
-            $table->softDeletes();
+            $table->string('user_name');
             $table->timestamps();
-            $table->index(['chat_rooms_id', 'deleted_at']);
+            $table->index('chat_rooms_id');
         });
     }
 

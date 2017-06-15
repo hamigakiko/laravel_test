@@ -37,6 +37,16 @@ class ChatRooms extends Model
     }
 
 
+    public function userNames()
+    {
+        $userNames = [];
+        foreach( $this->chatRoomUsers as $data){
+            $userNames[] = $data->user_name;
+        }
+        return $userNames;
+    }
+
+
     public function existsChatRoom(int $userId)
     {
         $chatRoomUsers = $this->chatRoomUsers;
@@ -50,16 +60,8 @@ class ChatRooms extends Model
     }
 
 
-    public function checkClosed($nowTransaction = false)
+    public function checkClosed()
     {
-        $chatRoomUserCount = count($this->chatRoomUsers);
-        if ($nowTransaction){
-            $chatRoomUserCount += 1;
-        }
-
-        if($this->entry_count <= $chatRoomUserCount){
-            $this->is_closed = true;
-        }
-        return $this->is_closed;
+        return $this->entry_count <= count($this->chatRoomUsers);
     }
 }

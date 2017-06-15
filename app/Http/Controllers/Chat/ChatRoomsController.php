@@ -30,14 +30,10 @@ class ChatRoomsController extends Controller
     {
         $user = Auth::user();
 
-        $chatRoomsList = ChatRooms::all();
-
         $template_params = [
             "user"          => $user,
-            "chatRoomsList" => $chatRoomsList,
+            "chatRoomsList" => ChatRooms::all(),
         ];
-
-
         return view('chat.index', $template_params);
     }
 
@@ -73,23 +69,16 @@ class ChatRoomsController extends Controller
 
         $chatRooms = ChatRooms::find($id);
 
-        $chatRoomUsers = new ChatRoomUsers();
-        $datas = [
-            'chat_rooms_id' => $chatRooms->id,
-            'user_id'       => $user->id,
-        ];
-        $chatRoomUsers->fill($datas);
+        DB::transaction(function () use($user, $chatRooms) {
+            $chatRoomUsers = ChatRoomUsers::firstOrNew(['chat_rooms_id'=>$chatRooms->id, 'user_id'=>$user->id]);
+            $chatRoomUsers->fill(['user_name'=>$user->name]);
+            $chatRoomUsers->save();
 
-        DB::transaction(function () use($user, $chatRooms, $chatRoomUsers) {
-            if(!$chatRooms->existsChatRoom($user->id)){
-                $chatRoomUsers->save();
-
-                if($chatRooms->checkClosed(true)){
-                    $chatRooms->save();
-                }
+            if(!$chatRooms->is_closed && $chatRooms->checkClosed()){
+                $chatRooms->is_closed = true;
+                $chatRooms->save();
             }
         });
-
 
         $template_params = [
             'chatRooms' => $chatRooms,
@@ -111,12 +100,11 @@ class ChatRoomsController extends Controller
 
         DB::transaction(function () use($user, $chatRooms) {
             ChatRoomUsers::where('chat_rooms_id', $chatRooms->id)->where('user_id', $user->id)->delete();
-            if( $chatRooms->checkClosed() ){
+            if( $chatRooms->is_closed && !$chatRooms->checkClosed() ){
                 $chatRooms->is_closed = false;
                 $chatRooms->save();
             }
         });
-
 
         return redirect()->action('Chat\ChatRoomsController@index');
     }
