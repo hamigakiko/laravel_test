@@ -13,7 +13,7 @@ use App\UserProfile;
 use App\Http\Controllers\Controller;
 
 
-
+use DB;
 
 class UserProfilesController extends Controller
 {
@@ -22,6 +22,7 @@ class UserProfilesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
 
@@ -56,16 +57,10 @@ class UserProfilesController extends Controller
     {
         $user = Auth::user();
 
-        $userProfile = new UserProfile();
-        $userProfile->fill($request->all());
-        $userProfile->user_id = $user->id;
-        $userProfile->save();
-
-        // $userAvater = new UserAvater();
-        // $userAvater->fill($request->all());
-        // $userAvater->user_id = $user->id;
-        // $userAvater->save();
-
+        $user->userProfile = new UserProfile();
+        $user->userProfile->fill($request->all());
+        $user->userProfile->user_id = $user->id;
+        $user->userProfile->save();
 
         return redirect('user');
     }
@@ -109,9 +104,9 @@ class UserProfilesController extends Controller
      */
     public function update(UserProfilesUpdateFormRequest $request, $id)
     {
-        $userProfile = UserProfile::find($id);
-        $userProfile->fill($request->all());
-        $userProfile->save();
+        $user = Auth::user();
+        $user->userProfile->fill($request->all());
+        $user->userProfile->save();
 
         return redirect('user');
     }

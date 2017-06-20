@@ -25,7 +25,7 @@
                 <div class="panel-body">
 
                     @if (isset($user))
-                        <form class="form-horizontal" role="form" method="POST" action="{{ action('User\UserProfilesController@update', $user->id) }}" enctype="multipart/form-data">
+                        <form class="form-horizontal" role="form" method="POST" action="{{ action('User\UserProfilesController@update', $user->userProfile->id) }}" enctype="multipart/form-data">
                         <input type="hidden" name="_method" value="PUT">
                     @else
                         <form class="form-horizontal" role="form" method="POST" action="{{ action('User\UserProfilesController@store') }}" enctype="multipart/form-data">

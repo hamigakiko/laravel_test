@@ -26,8 +26,20 @@
             </table>
         </div>
 
+        <div>
 
-        <a href="{{ action('Chat\ChatRoomsController@edit', $chatRooms->id) }}" class="button">退出</a>
+
+
+        </div>
+            <form class="form-horizontal" role="form" method="POST" action="{{ action('Chat\ChatsController@store', $user->id) }}">
+                <input type="text" name="message" value="">
+                <input type="submit" value="submit">
+            </form>
+
+        <div>
+            <a href="{{ action('Chat\ChatRoomsController@edit', $chatRooms->id) }}" class="button">退出</a>
+        </div>
+
 
 
         <hr class="guild">
