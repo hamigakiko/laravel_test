@@ -178,6 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Intervention\Image\ImageServiceProvider::class,
+
+        // API承認
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*
