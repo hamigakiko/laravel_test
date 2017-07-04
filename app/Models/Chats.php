@@ -16,7 +16,10 @@ class Chats extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'message'
+        'chat_rooms_id',
+        'user_id',
+        'user_name',
+        'message',
     ];
 
 

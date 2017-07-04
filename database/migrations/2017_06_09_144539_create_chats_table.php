@@ -17,6 +17,7 @@ class CreateChatsTable extends Migration
             $table->increments('id');
             $table->integer('chat_rooms_id')->unsigned();
             $table->integer('user_id')->references('id')->on('users');
+            $table->string('user_name');
             $table->string('message');
             $table->softDeletes();
             $table->timestamps();

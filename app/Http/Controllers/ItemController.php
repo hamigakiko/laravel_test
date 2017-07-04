@@ -1,5 +1,6 @@
 <?php
 
+// namespace App\Http\Controllers\Api\Item;
 namespace App\Http\Controllers;
 
 use App\Item;
@@ -19,7 +20,7 @@ class ItemController extends Controller
 
         // return response(Item::all());
 
-        return response(Item::query()->where('checked', false)->get());
+        return "hoge";
     }
 
     /**

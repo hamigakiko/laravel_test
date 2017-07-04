@@ -115,3 +115,37 @@ hr.guild{
 
 
 
+
+table{
+	width:100%;
+	border-collapse:separate;
+	border-spacing:2px;
+}
+
+td{
+	padding:6px;
+	background:none;
+	border:solid 1px black;
+}
+
+th{
+	text-align:center;
+	background-color:greenyellow;
+}
+
+th span{
+	color:red;
+	font-weight:normal;
+	margin-left:2px;
+}
+table ul{ margin:0 0 0 15px; }
+
+ul{ margin:10px 0 10px 25px; padding:0; }
+
+ol{ margin:10px 0 10px 30px; padding:0; }
+
+dl{ margin:10px auto; }
+
+dd{ margin:10px auto 10px 20px; }
+
+textarea{ width:95%; }

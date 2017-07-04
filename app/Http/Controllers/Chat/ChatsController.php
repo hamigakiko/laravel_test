@@ -1,32 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\User;
-
-use Illuminate\Http\Request;
-use App\Http\Requests\UserAvatersStoreFormRequest;
-use App\Http\Requests\UserAvatersUpdateFormRequest;
+namespace App\Http\Controllers\Chat;
 
 
 use Illuminate\Support\Facades\Auth;
 
-use App\UserAvater;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests\Chats\ChatsStoreFormRequest;
 
-// use Input;
-use Image;
+
+use App\Models\ChatRooms;
+use App\Models\ChatRoomUsers;
+use App\Models\Chats;
+use App\Http\Controllers\Controller;
 
 use DB;
 
-use Illuminate\Http\UploadedFile;
 
-class UserAvatersController extends Controller
+class ChatsController extends Controller
 {
 
     // public function __construct()
     // {
     //     $this->middleware('auth');
     // }
-
 
     /**
      * Display a listing of the resource.
@@ -35,7 +32,11 @@ class UserAvatersController extends Controller
      */
     public function index()
     {
-        //
+        // $user = Auth::user();
+
+        // return $user->name;
+
+        // return Response::json($user);
     }
 
     /**
@@ -45,7 +46,7 @@ class UserAvatersController extends Controller
      */
     public function create()
     {
-        return view('user.avater_form');
+        //
     }
 
     /**
@@ -54,31 +55,27 @@ class UserAvatersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserAvatersStoreFormRequest $request)
+    public function store(ChatsStoreFormRequest $request)
     {
         $user = Auth::user();
-        $userAvater = new userAvater();
 
-        $file = $request->file('avater_file');
-        $fileExtension = $file->extension();
-        $fileName = $user->id . '.' . $fileExtension;
-        $filePath = public_path()  . '/images/avaters/';
+        $chatRooms = ChatRooms::find($request->chat_rooms_id);
 
-        $image = Image::make($file);
-        $image->resize(300, 300);
-        $mimeType = $image->mime();
+        if(!$chatRooms->isChatRoomMembers($user->id)){
+            abort(400, 'ルームにユーザーが存在しません。');
+        }
 
-        $userAvater->user_id   = $user->id;
-        $userAvater->name      = $fileName;
-        $userAvater->mime_type = $mimeType;
+        $chatParams = [
+            'chat_rooms_id' => $request->chat_rooms_id,
+            'user_id'       => $user->id,
+            'user_name'     => $user->name,
+            'message'       => $request->message,
+        ];
+        $chats = new Chats;
+        $chats->fill($chatParams);
+        $chats->save();
 
-        DB::transaction(function () use($image, $filePath, $userAvater) {
-            $userAvater->save();
-            $image->save($filePath . $userAvater->name);
-            $image->resize(100, 100)->save($filePath . "mini/" . $userAvater->name);
-        });
-
-        return redirect('user');
+        return redirect()->action('Chat\ChatRoomsController@show', $request->chat_rooms_id);
     }
 
     /**

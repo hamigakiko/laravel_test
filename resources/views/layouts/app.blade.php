@@ -26,8 +26,6 @@
     <link href="{{ asset('css/parts.css') }}?date=<?php echo_filedate("css/parts.css"); ?>" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/lightbox.css') }}" rel="stylesheet" type="text/css">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -96,6 +94,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('add_js')
 </body>

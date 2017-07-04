@@ -15,10 +15,10 @@ use DB;
 class ChatRoomsController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
 
     /**
@@ -82,6 +82,7 @@ class ChatRoomsController extends Controller
 
         $template_params = [
             'chatRooms' => $chatRooms,
+            'user'      => $user,
         ];
         return view('chat.show', $template_params);
     }

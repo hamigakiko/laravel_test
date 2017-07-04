@@ -18,4 +18,27 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // 認証は面倒なので一旦省略
-// Route::resource('/items', 'ItemController', ['except' => ['create', 'edit']]);
+Route::resource('/items', 'ItemController', ['except' => ['create', 'edit']]);
+
+
+
+// // API
+// Route::group(['prefix'=>'api', ], function () {
+
+//     Route::resource('chat', 'ChatsController@index');
+
+//     // Route::resource('/items', 'ItemController', ['except' => ['create', 'edit']]);
+
+// });
+
+
+
+// API
+// Route::group(['middleware'=>'auth'], function(){
+
+    // // チャットコントローラー
+    // // Route::resource('/chats', 'Api\Chat\ChatsController', [
+    // Route::resource('/chats', 'Api\Chat\ChatsController', [
+    //     'except' => 'destroy'
+    // ]);
+// });

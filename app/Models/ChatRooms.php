@@ -29,12 +29,17 @@ class ChatRooms extends Model
     {
         return $this->hasMany('App\Models\Chats');
     }
+    public function chatsOrderByIdDesc()
+    {
+        return $this->chats()->orderBy('id', 'desc');
+    }
 
 
     public function chatRoomUsers()
     {
         return $this->hasMany('App\Models\ChatRoomUsers');
     }
+
 
 
     public function userNames()
@@ -47,7 +52,7 @@ class ChatRooms extends Model
     }
 
 
-    public function existsChatRoom(int $userId)
+    public function isChatRoomMembers(int $userId)
     {
         $chatRoomUsers = $this->chatRoomUsers;
 

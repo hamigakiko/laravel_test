@@ -15,9 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
-
 // Route::post('user/create',   'User\UserController@create');
 
 // Route::get('user/list',   'User\UserController@list');
@@ -30,23 +27,39 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-// ユーザーコントローラー
-Route::resource('user', 'User\UserController', [
-    'except' => 'create', 'store', 'update', 'destroy'
-]);
+
+// 認証必須
+Route::group(['middleware'=>'auth'], function () {
+
+    // User
+    Route::group(['namespace'=> 'User'], function(){
+        // ユーザーコントローラー
+        Route::resource('user', 'UserController', [
+            'except' => 'create', 'store', 'update', 'destroy'
+        ]);
+
+        // ユーザープロファイルコントローラー
+        Route::resource('userProfile', 'UserProfilesController', [
+            'except' => 'destroy'
+        ]);
+
+        // ユーザープロファイルコントローラー
+        Route::resource('userAvater', 'UserAvatersController', [
+            'except' => 'destroy'
+        ]);
+    });
 
 
-// ユーザープロファイルコントローラー
-Route::resource('userProfile', 'User\UserProfilesController', [
-    'except' => 'destroy'
-]);
+    //Chat
+    Route::group(['namespace' => 'Chat'], function () {
+        Route::resource('chatRooms', 'ChatRoomsController', [
+            'except' => 'destroy'
+        ]);
 
-// ユーザープロファイルコントローラー
-Route::resource('userAvater', 'User\UserAvatersController', [
-    'except' => 'destroy'
-]);
+        Route::resource('chats', 'ChatsController', [
+            'except' => 'destroy'
+        ]);
+    });
 
-// チャットルームコントローラー
-Route::resource('chatRooms', 'Chat\ChatRoomsController', [
-    'except' => 'destroy'
-]);
+
+});
