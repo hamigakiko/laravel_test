@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Illuminate\Support\Facades\Redis;
+
 class ChatRooms extends Model
 {
     use SoftDeletes;
@@ -68,5 +70,17 @@ class ChatRooms extends Model
     public function checkClosed()
     {
         return $this->entry_count <= count($this->chatRoomUsers);
+    }
+
+
+
+    public function cacheName()
+    {
+        return "ChatRooms:".$this->id;
+    }
+
+    public function getCache()
+    {
+        return Redis::smembers($this->cacheName());
     }
 }

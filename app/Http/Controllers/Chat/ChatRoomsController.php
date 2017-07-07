@@ -12,15 +12,10 @@ use App\Http\Controllers\Controller;
 
 use DB;
 
+use Illuminate\Support\Facades\Redis;
+
 class ChatRoomsController extends Controller
 {
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +24,6 @@ class ChatRoomsController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $template_params = [
             "user"          => $user,
             "chatRoomsList" => ChatRooms::all(),
@@ -78,6 +72,8 @@ class ChatRoomsController extends Controller
                 $chatRooms->is_closed = true;
                 $chatRooms->save();
             }
+
+            Redis::sadd($chatRooms->CacheName(), $user->id);
         });
 
         $template_params = [
@@ -105,6 +101,8 @@ class ChatRoomsController extends Controller
                 $chatRooms->is_closed = false;
                 $chatRooms->save();
             }
+
+            Redis::srem($chatRooms->CacheName(), $user->id);
         });
 
         return redirect()->action('Chat\ChatRoomsController@index');

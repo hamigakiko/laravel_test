@@ -31,6 +31,18 @@
                         @endif
                     </a>
                 @endif
+
+                @if($chatRooms->getCache())
+                    &nbsp;<span class="colr">入室中ユーザーID</span>【
+                    @foreach($chatRooms->getCache() as $user_id)
+                        {{ $user_id }}
+                        @if(!$loop->last)
+                        ,&nbsp;
+                        @endif
+                    @endforeach
+                    】(Redisデータを参照)
+                @endif
+
             </p>
         @endforeach
 
