@@ -19,6 +19,7 @@ class Chats extends Model
         'chat_rooms_id',
         'user_id',
         'user_name',
+        'user_sex',
         'message',
     ];
 

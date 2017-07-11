@@ -105,6 +105,12 @@ ol li {
     text-align: right;
 }
 
+.mla {
+    width:200px;
+    margin-left: auto;
+}
+
+
 .colw {
     color: #fff !important;
 }

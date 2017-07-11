@@ -69,6 +69,7 @@ class ChatsController extends Controller
             'chat_rooms_id' => $request->chat_rooms_id,
             'user_id'       => $user->id,
             'user_name'     => $user->name,
+            'user_sex'      => $user->userProfile->sex,
             'message'       => $request->message,
         ];
         $chats = new Chats;

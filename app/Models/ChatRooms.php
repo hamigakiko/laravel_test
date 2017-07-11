@@ -43,17 +43,6 @@ class ChatRooms extends Model
     }
 
 
-
-    public function userNames()
-    {
-        $userNames = [];
-        foreach( $this->chatRoomUsers as $data){
-            $userNames[] = $data->user_name;
-        }
-        return $userNames;
-    }
-
-
     public function isChatRoomMembers(int $userId)
     {
         $chatRoomUsers = $this->chatRoomUsers;

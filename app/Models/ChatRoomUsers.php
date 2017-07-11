@@ -20,7 +20,7 @@ class ChatRoomUsers extends Model
      * @var array
      */
     protected $fillable = [
-        'chat_rooms_id', 'user_id', 'user_name'
+        'chat_rooms_id', 'user_id', 'user_name', 'user_sex'
     ];
 
     public function chatRooms()

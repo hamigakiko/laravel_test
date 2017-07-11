@@ -66,6 +66,7 @@ class ChatRoomsController extends Controller
         DB::transaction(function () use($user, $chatRooms) {
             $chatRoomUsers = ChatRoomUsers::firstOrNew(['chat_rooms_id'=>$chatRooms->id, 'user_id'=>$user->id]);
             $chatRoomUsers->fill(['user_name'=>$user->name]);
+            $chatRoomUsers->fill(['user_sex'=>$user->userProfile->sex]);
             $chatRoomUsers->save();
 
             if(!$chatRooms->is_closed && $chatRooms->checkClosed()){
@@ -73,6 +74,7 @@ class ChatRoomsController extends Controller
                 $chatRooms->save();
             }
 
+            // Redis::hset($chatRooms->CacheName(), $user->id, $user->userProfile->sex);
             Redis::sadd($chatRooms->CacheName(), $user->id);
         });
 

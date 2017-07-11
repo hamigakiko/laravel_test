@@ -145,3 +145,25 @@ ul{ margin:10px 0 10px 25px; padding:0; }
 ol{ margin:10px 0 10px 30px; padding:0; }
 
 textarea{ width:95%; }
+
+
+
+
+.timer, .timer-done, .timer-loop {
+    color: black;
+}
+.jst-hours {
+  float: left;
+}
+.jst-minutes {
+  float: left;
+}
+.jst-seconds {
+  float: left;
+}
+.jst-clearDiv {
+  clear: both;
+}
+.jst-timeout {
+  color: red;
+}
